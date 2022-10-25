@@ -3,9 +3,9 @@ import os
 
 # declare paths for reading and writing
 bankcsvpath = os.path.join("Week 3","Instructions","python-challenge","PyBank","Resources","budget_data.csv")
-banktextpath = os.path.join("Week 3","Instructions","python-challenge","PyBank","Resources","budget_data.txt")
+banktextpath = os.path.join("Week 3","Instructions","python-challenge","PyBank","Analysis","budget_data.txt")
 pollcsvpath = os.path.join("Week 3","Instructions","python-challenge","PyPoll","Resources","election_data.csv")
-polltextpath = os.path.join("Week 3","Instructions","python-challenge","PyPoll","Resources","election_data.txt")
+polltextpath = os.path.join("Week 3","Instructions","python-challenge","PyPoll","Analysis","election_data.txt")
 
 # declare bank variables
 numMonths = 0
