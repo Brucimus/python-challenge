@@ -2,10 +2,11 @@ import csv
 import os
 from telnetlib import theNULL
 
-# declare paths
-bankcsvpath = os.path.join("Week 3","Instructions","PyBank","Resources","budget_data.csv")
-#Week 3\Instructions\PyBank\Resources\budget_data.csv
-pollcsvpath = os.path.join("Week 3","Instructions","PyPoll","Resources","election_data.csv")
+# declare paths for reading and writing
+bankcsvpath = os.path.join("Week 3","Instructions","python-challenge","PyBank","Resources","budget_data.csv")
+banktextpath = os.path.join("Week 3","Instructions","python-challenge","PyBank","Resources","budget_data.txt")
+pollcsvpath = os.path.join("Week 3","Instructions","python-challenge","PyPoll","Resources","election_data.csv")
+polltextpath = os.path.join("Week 3","Instructions","python-challenge","PyPoll","Resources","election_data.txt")
 
 # declare bank variables
 numMonths = 0
@@ -17,10 +18,13 @@ greatestDecreaseMo = ""
 oldValue = 0
 beginValue = 0
 endValue = 0
+
+#open bank csv file
 with open(bankcsvpath, newline='', encoding='utf8') as csvfile:
     csvreader = csv.reader(csvfile, delimiter=',')
     csv_header = next(csvreader)
-    #print(f"CSV Header: {csv_header}")
+    
+    #iterate throw rows to gather data
     for row in csvreader:
         numMonths = numMonths + 1
         netTotal = netTotal + int(row[1])
@@ -36,13 +40,14 @@ with open(bankcsvpath, newline='', encoding='utf8') as csvfile:
             greatestDecreaseMo = row[0]
         oldValue = int(row[1])
     
-    print("Financial Analysis \n ----------------------------")
-    print(f"Total Months: {numMonths}")
-    print(f"Total: ${netTotal}")
-    print(f"Average Change: ${round((endValue-beginValue)/(numMonths-1),2)}")
-    print(f"Greatest Increase in Profits: {greatestIncreaseMo} (${greatestIncrease})")
-    print(f"Greatest Decrease in Profits: {greatestDecreaseMo} (${greatestDecrease})")
-    print("\n\n")
+    #write into txt file
+    with open(banktextpath,'w') as f:
+        f.write(f"Financial Analysis \n----------------------------\n")
+        f.write(f"Total Months: {numMonths}\n")
+        f.write(f"Total: ${netTotal}\n")
+        f.write(f"Average Change: ${round((endValue-beginValue)/(numMonths-1),2)}\n")
+        f.write(f"Greatest Increase in Profits: {greatestIncreaseMo} (${greatestIncrease})\n")
+        f.write(f"Greatest Decrease in Profits: {greatestDecreaseMo} (${greatestDecrease})\n")
 
 # declare poll variables
 pollAgg = {}
@@ -50,10 +55,13 @@ tempAgg =0
 totalVotes = 0
 winnerTally = 0
 winner = ''
+
+#open polls csv file
 with open(pollcsvpath, newline='', encoding='utf8') as csvfile:
     csvreader = csv.reader(csvfile, delimiter=',')
     csv_header = next(csvreader)
-#     #print(f"CSV Header: {csv_header}")
+
+    #iterate throw rows to gather data
     for row in csvreader:
         totalVotes = totalVotes + 1
         if row[2] in pollAgg:
@@ -61,12 +69,15 @@ with open(pollcsvpath, newline='', encoding='utf8') as csvfile:
             pollAgg.update({row[2]: tempAgg})
         else:
             pollAgg[row[2]] = 1
-    print(f"Election Results\n-------------------------\nTotal Votes: {totalVotes}\n-------------------------")
-    for votes in pollAgg:
-        print(f"{votes}: {round((pollAgg[votes]/totalVotes)*100,3)}% ({pollAgg[votes]})")
-    for votes in pollAgg:
-        if pollAgg[votes] > winnerTally:
-            winnerTally = pollAgg[votes]
-            winner = votes
-    print(f"-------------------------\nWinner: {winner}\n-------------------------")
+
+    #write into txt file
+    with open(polltextpath,'w') as f:
+        f.write(f"Election Results\n-------------------------\nTotal Votes: {totalVotes}\n-------------------------\n")
+        for votes in pollAgg:
+            f.write(f"{votes}: {round((pollAgg[votes]/totalVotes)*100,3)}% ({pollAgg[votes]})\n")
+        for votes in pollAgg:
+            if pollAgg[votes] > winnerTally:
+                winnerTally = pollAgg[votes]
+                winner = votes
+        f.write(f"-------------------------\nWinner: {winner}\n-------------------------\n")
 
