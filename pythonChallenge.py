@@ -1,6 +1,5 @@
 import csv
 import os
-from telnetlib import theNULL
 
 # declare paths for reading and writing
 bankcsvpath = os.path.join("Week 3","Instructions","python-challenge","PyBank","Resources","budget_data.csv")
